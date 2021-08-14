@@ -1,6 +1,7 @@
 load("//tensorboard/defs:defs.bzl", "tf_js_binary", "tf_ng_module", "tf_ng_web_test_suite", "tf_sass_binary", "tf_sass_library", "tf_svg_bundle", "tf_ts_library")
 load("//tensorboard/defs:js.bzl", "tf_resource_digest_suffixer")
 load("//tensorboard/defs:web.bzl", "tb_combine_html", "tf_web_library")
+load("//tensorboard/defs:npm_sass_library.bzl", "npm_sass_library")
 
 package(default_visibility = ["//tensorboard:internal"])
 
@@ -399,12 +400,17 @@ tf_svg_bundle(
     out = "icon_bundle.svg",
 )
 
+npm_sass_library(
+    name = "angular_material_sass",
+    deps = ["@npm//@angular/material"],
+)
+
 tf_sass_library(
     name = "angular_material_theming",
     srcs = [
         "_angular_material_theming.scss",
-        "@npm//:node_modules/@angular/material/_theming.scss",
     ],
+    deps = [":angular_material_sass"],
 )
 
 # TODO(stephanwlee): remove the alias when all usages, internal, too,
